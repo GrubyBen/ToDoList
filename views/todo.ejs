@@ -10,40 +10,32 @@
 </head>
 
 <body>
-    <section class="todo-navbar">
-        <section class="todo-navbar-buttons">
-            <form action="/select" method="post">
-                <button type="submit" class="todo-navbar-button-todo" formaction="/todo-todo">To Do</button>
-                <button type="submit" class="todo-navbar-button-inProgress" formaction="/todo-inprogress">In Progress</button>
-                <button type="submit" class="todo-navbar-button-done" formaction="/todo-done">Done</button>
-            </form>
-        </section>
-    </section>
     <ul>
-        <% todos.forEach(todo => {
-            // Check if the todo status is "todo"
-            if (todo.status === "todo") { %>
+        <% todos.forEach(todo => { %>
             <li>
                 <%= todo.content %>
                     <form action="/update-todo" method="post" style="display: inline;">
                         <input type="hidden" name="todoId" value="<%= todo.id %>">
-                        <button type="submit" class="inProgress-button" name="status" value="inProgress">Mark as In Progress</button>
-                        <button type="submit" class="done-button" name="status" value="done">Mark as Done</button>
+                        <select class="todo-select" name="status" id="select-<%= todo.id %>" data-todo-id="<%= todo.id %>">
+                            <option value="todo"<%= todo.status === "todo" ? 'selected' : '' %> >To Do</option>
+                            <option value="inprogress"<%= todo.status === "inprogress" ? 'selected' : '' %> >In Progress</option>
+                            <option value="done"<%= todo.status === "done" ? 'selected' : '' %> >Done</option>
+                        </select>
+                        <button type="submit" class="todo-update-todo">Change</button>
                     </form>
                     <form action="/delete-todo" method="post" style="display: inline;">
                         <input type="hidden" name="todoId" value="<%= todo.id %>">
                         <button type="submit" class="delete-button">Delete</button>
                     </form>
             </li>
-            <% } // Close the if statement
-        }); %>
+            <% }); %>
     </ul>
     <div class="material-symbols-outlined" onclick="showPopup()">add_circle</div>
     <div id="todo-input" class="popup">
         <div class="blocker" onclick="hidePopup()"></div>
         <form id="todo-form" action="/create-todo" method="post">
             <label for="todo-content">Enter your ToDo:</label>
-            <input type="text" id="todo-content" name="todo-content">
+            <input type="text" id="todo-content" autocomplete="off" name="todo-content">
             <button type="submit">Submit</button>
         </form>
     </div>

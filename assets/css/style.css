@@ -7,72 +7,6 @@ body {
     color: white;
 }
 
-.todo-navbar {
-    background-color: #151515dd;
-    width: 100%;
-    height: 50px;
-    border-radius: 15px;
-}
-
-.todo-navbar-buttons {
-    display: flex;
-    justify-content: flex-start;
-    margin-left: 1vh;
-    align-items: center;
-    height: 100%;
-}
-
-.todo-navbar-button-todo {
-    background-color: #d72d2d;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.todo-navbar-button-todo:hover {
-    background-color: #bc1b1b;
-}
-
-.todo-navbar-button-inProgress {
-    background-color: #ccd12b;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.todo-navbar-button-inProgress:hover {
-    background-color: #b3b81f;
-}
-
-.todo-navbar-button-done {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.todo-navbar-button-done:hover {
-    background-color: #3d9541;
-}
-
-#todo-form {
-    text-align: center;
-    padding: 20px;
-    background-color: #111111;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-}
-
-
-/* Style the label and input field */
-
 .popup {
     display: none;
 }
@@ -92,21 +26,43 @@ body {
     z-index: -1;
 }
 
-#popup .contents {
-    display: block;
+.popup .contents {
+    width: 200px;
+    max-width: 100%;
+    background-color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 20px;
     margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.popup .contents label {
+    font-weight: bold;
+}
+
+.popup .contents input[type="text"] {
+    width: 100%;
+    padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 200px;
-    height: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #FFF;
-    position: fixed;
-    top: 50vh;
-    left: 50vw;
-    transform: translate(-50%, -50%);
+}
+
+.popup .contents button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.popup .contents button[type="submit"]:hover {
+    background-color: #45a049;
 }
 
 #todo-form button[type="submit"] {
@@ -137,22 +93,15 @@ body {
     color: green;
 }
 
-.inProgress-button {
-    padding: 5px 10px;
-    margin-right: 10px;
-    background-color: #ccd12b;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-}
-
-.done-button {
+.todo-update-todo {
     padding: 5px 10px;
     margin-right: 10px;
     background-color: #4CAF50;
     color: #fff;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+    font-weight: bolder;
 }
 
 .delete-button {
@@ -161,12 +110,62 @@ body {
     color: #fff;
     border: none;
     cursor: pointer;
+    border-radius: 5px;
+    font-weight: bolder;
 }
 
-.todo-button {
-    padding: 5px 10px;
-    background-color: #d72d2d;
-    color: #fff;
+.todo-select {
+    position: relative;
+    display: inline-block;
+    width: 6rem;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+}
+
+.todo-select {
+    position: relative;
+    display: inline-block;
+    width: 200px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+}
+
+.todo-select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     border: none;
-    cursor: pointer;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    margin-left: 1rem;
+}
+
+option {
+    padding: 10px;
+}
+
+option[value="todo"] {
+    background-color: red;
+    color: white;
+}
+
+option[value="inprogress"] {
+    background-color: yellow;
+    color: black;
+}
+
+option[value="done"] {
+    background-color: green;
+    color: white;
 }

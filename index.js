@@ -43,57 +43,6 @@ app.get('/', function(req, res) {
     });
 });
 
-app.post('/todo-todo', function(req, res) {
-    const sql = 'SELECT * FROM todos';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching todos:', err);
-        } else {
-            // Render the 'todo.ejs' template and pass the fetched todos to it
-            res.render('todo.ejs', { todos: results });
-
-            // Log the status of each todo
-            results.forEach(todo => {
-                console.log('Todo Status:', todo.status);
-            });
-        };
-    });
-});
-
-app.post('/todo-inprogress', function(req, res) {
-    const sql = 'SELECT * FROM todos';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching todos:', err);
-        } else {
-            // Render the 'todo.ejs' template and pass the fetched todos to it
-            res.render('inprogress.ejs', { todos: results });
-
-            // Log the status of each todo
-            results.forEach(todo => {
-                console.log('Todo Status:', todo.status);
-            });
-        };
-    });
-});
-
-app.post('/todo-done', function(req, res) {
-    const sql = 'SELECT * FROM todos';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching todos:', err);
-        } else {
-            // Render the 'todo.ejs' template and pass the fetched todos to it
-            res.render('done.ejs', { todos: results });
-
-            // Log the status of each todo
-            results.forEach(todo => {
-                console.log('Todo Status:', todo.status);
-            });
-        };
-    });
-});
-
 app.post('/create-todo', (req, res) => {
     const todoContent = req.body['todo-content'];
 
@@ -103,22 +52,6 @@ app.post('/create-todo', (req, res) => {
             console.error('Error inserting todo:', err);
         } else {
             console.log('Todo created successfully');
-            res.redirect('/');
-        }
-    });
-});
-app.post('/update-todo', (req, res) => {
-    const todoId = req.body.todoId;
-    const newStatus = req.body.status;
-
-    const sql = "UPDATE todos SET status = ? WHERE id = ?";
-    db.query(sql, [newStatus, todoId], (err, result) => {
-        if (err) {
-            console.error('Error updating todo:', err);
-            // Handle the error here, e.g., send an error response
-        } else {
-            console.log('Todo updated successfully');
-            // Send a success response after the update is complete
             res.redirect('/');
         }
     });
@@ -138,7 +71,23 @@ app.post('/delete-todo', (req, res) => {
     });
 });
 
+app.post('/update-todo', (req, res) => {
+    const todoId = req.body.todoId;
+    const newStatus = req.body.status; // Use req.body.status to get the selected status
 
+    // Now you can use the 'newStatus' to update the todo in the database
+    const sql = "UPDATE todos SET status = ? WHERE id = ?";
+    db.query(sql, [newStatus, todoId], (err, result) => {
+        if (err) {
+            console.error('Error updating todo:', err);
+            // Handle the error here, e.g., send an error response
+        } else {
+            console.log('Todo updated successfully');
+            // Send a success response after the update is complete
+            res.redirect('/');
+        }
+    });
+});
 app.listen(getConfig.port, () => {
     console.log(`Server is running on port ${getConfig.port}`);
 });
