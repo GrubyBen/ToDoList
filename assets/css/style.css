@@ -1,0 +1,172 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #202020;
+    color: white;
+}
+
+.todo-navbar {
+    background-color: #151515dd;
+    width: 100%;
+    height: 50px;
+    border-radius: 15px;
+}
+
+.todo-navbar-buttons {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1vh;
+    align-items: center;
+    height: 100%;
+}
+
+.todo-navbar-button-todo {
+    background-color: #d72d2d;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.todo-navbar-button-todo:hover {
+    background-color: #bc1b1b;
+}
+
+.todo-navbar-button-inProgress {
+    background-color: #ccd12b;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.todo-navbar-button-inProgress:hover {
+    background-color: #b3b81f;
+}
+
+.todo-navbar-button-done {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.todo-navbar-button-done:hover {
+    background-color: #3d9541;
+}
+
+#todo-form {
+    text-align: center;
+    padding: 20px;
+    background-color: #111111;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Style the label and input field */
+
+.popup {
+    display: none;
+}
+
+.popup.open {
+    display: block;
+}
+
+.blocker {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    content: ' ';
+    background: rgba(0, 0, 0, .5);
+    z-index: -1;
+}
+
+#popup .contents {
+    display: block;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFF;
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+}
+
+#todo-form button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#todo-form button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48
+}
+
+.material-symbols-outlined:hover {
+    text-decoration: none;
+    color: green;
+    cursor: pointer;
+}
+
+.material-symbols-outlined:checked {
+    color: green;
+}
+
+.inProgress-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #ccd12b;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.done-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.delete-button {
+    padding: 5px 10px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.todo-button {
+    padding: 5px 10px;
+    background-color: #d72d2d;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}

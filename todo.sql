@@ -1,0 +1,7 @@
+CREATE DATABASE todo;
+USE todo;
+CREATE TABLE todos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  status VARCHAR(255) NOT NULL,
+  content TEXT NOT NULL
+);
