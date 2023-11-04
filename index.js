@@ -32,10 +32,8 @@ app.get('/', function(req, res) {
         if (err) {
             console.error('Error fetching todos:', err);
         } else {
-            // Render the 'todo.ejs' template and pass the fetched todos to it
             res.render('todo.ejs', { todos: results });
 
-            // Log the status of each todo
             results.forEach(todo => {
                 console.log('Todo Status:', todo.status);
             });
@@ -66,24 +64,20 @@ app.post('/delete-todo', (req, res) => {
         } else {
             console.log('Todo deleted successfully');
         }
-        // Redirect the user to the appropriate page after deletion
         res.redirect('/');
     });
 });
 
 app.post('/update-todo', (req, res) => {
     const todoId = req.body.todoId;
-    const newStatus = req.body.status; // Use req.body.status to get the selected status
+    const newStatus = req.body.status;
 
-    // Now you can use the 'newStatus' to update the todo in the database
     const sql = "UPDATE todos SET status = ? WHERE id = ?";
     db.query(sql, [newStatus, todoId], (err, result) => {
         if (err) {
             console.error('Error updating todo:', err);
-            // Handle the error here, e.g., send an error response
         } else {
             console.log('Todo updated successfully');
-            // Send a success response after the update is complete
             res.redirect('/');
         }
     });
