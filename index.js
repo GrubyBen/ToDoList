@@ -56,7 +56,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/register', (req, res) => {
-    res.render('register.ejs');
+    res.render('login.ejs');
 });
 
 app.post('/register', (req, res, next) => {
