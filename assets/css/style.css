@@ -5,6 +5,110 @@
 body {
     background-color: #202020;
     color: white;
+    font-family: Arial, sans-serif;
+}
+
+.todo-notes-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.todo-note {
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+}
+
+.todo-creator span {
+    font-style: italic;
+    font-size: 14px;
+}
+
+.todo-update-todo,
+.delete-button {
+    padding: 5px 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    font-weight: bolder;
+}
+
+.todo-update-todo {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.todo-select {
+    width: fit-content;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    position: relative;
+    display: inline-block;
+}
+
+.todo-select::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    width: 100%;
+    padding: 10px;
+    background: transparent;
+    margin-left: 1rem;
+}
+
+option {
+    padding: 10px;
+}
+
+option[value="todo"] {
+    background-color: red;
+    color: white;
+}
+
+option[value="inprogress"] {
+    background-color: yellow;
+    color: black;
+}
+
+option[value="done"] {
+    background-color: green;
+    color: white;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+.material-symbols-outlined:hover {
+    text-decoration: none;
+    color: green;
+    cursor: pointer;
+}
+
+.material-symbols-outlined:checked {
+    color: green;
 }
 
 .popup {
@@ -79,93 +183,33 @@ body {
     background-color: #45a049;
 }
 
-.material-symbols-outlined {
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48
-}
-
-.material-symbols-outlined:hover {
-    text-decoration: none;
-    color: green;
-    cursor: pointer;
-}
-
-.material-symbols-outlined:checked {
-    color: green;
-}
-
-.todo-update-todo {
-    padding: 5px 10px;
-    margin-right: 10px;
-    background-color: #4CAF50;
-    color: #fff;
-    border: none;
-    cursor: pointer;
+.todo-header {
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
     border-radius: 5px;
-    font-weight: bolder;
 }
 
-.delete-button {
-    padding: 5px 10px;
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-    font-weight: bolder;
-}
-
-.todo-select {
-    position: relative;
-    display: inline-block;
-    width: 6rem;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-}
-
-.todo-select {
-    position: relative;
-    display: inline-block;
-    width: 200px;
-    border: 2px solid #3498db;
-    border-radius: 5px;
-    background-color: #f2f2f2;
-}
-
-.todo-select::after {
-    content: '\25BC';
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-}
-
-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: none;
-    width: 100%;
-    padding: 10px;
-    background: transparent;
-    margin-left: 1rem;
-}
-
-option {
-    padding: 10px;
-}
-
-option[value="todo"] {
-    background-color: red;
+.todo-header h1 {
     color: white;
+    font-size: 24px;
+    margin: 0;
 }
 
-option[value="inprogress"] {
-    background-color: yellow;
-    color: black;
+.todo-header a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    transition: background-color 0.3s;
 }
 
-option[value="done"] {
-    background-color: green;
+.todo-header a:hover {
+    background-color: #4CAF50;
     color: white;
 }

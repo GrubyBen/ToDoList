@@ -10,26 +10,36 @@
 </head>
 
 <body>
-    <ul>
+    <section class="todo-header">
+        <h1>ToDoList</h1>
+        <a href="/login">Logout</a>
+    </section>
+    <section class="todo-notes-container">
         <% todos.forEach(todo => { %>
-            <li>
-                <%= todo.content %>
-                    <form action="/update-todo" method="post" style="display: inline;">
-                        <input type="hidden" name="todoId" value="<%= todo.id %>">
-                        <select class="todo-select" name="status" id="select-<%= todo.id %>" data-todo-id="<%= todo.id %>">
-                            <option value="todo"<%= todo.status === "todo" ? 'selected' : '' %> >To Do</option>
-                            <option value="inprogress"<%= todo.status === "inprogress" ? 'selected' : '' %> >In Progress</option>
-                            <option value="done"<%= todo.status === "done" ? 'selected' : '' %> >Done</option>
-                        </select>
-                        <button type="submit" class="todo-update-todo">Change</button>
-                    </form>
-                    <form action="/delete-todo" method="post" style="display: inline;">
-                        <input type="hidden" name="todoId" value="<%= todo.id %>">
-                        <button type="submit" class="delete-button">Delete</button>
-                    </form>
-            </li>
+            <div class="todo-note">
+                <form action="/update-todo" method="post" style="display: inline;">
+                    <section class="todo-content-base">
+                        Note:
+                        <%= todo.content %>
+                    </section>
+                    <section class="todo-creator">
+                        <span>Created by: <%= todo.creatorNickname %></span>
+                    </section>
+                    <input type="hidden" name="todoId" value="<%= todo.id %>">
+                    <select class="todo-select" name="status" id="select-<%= todo.id %>" data-todo-id="<%= todo.id %>">
+                    <option value="todo"<%= todo.status === "todo" ? 'selected' : '' %> >To Do</option>
+                    <option value="inprogress"<%= todo.status === "inprogress" ? 'selected' : '' %> >In Progress</option>
+                    <option value="done"<%= todo.status === "done" ? 'selected' : '' %> >Done</option>
+                </select>
+                    <button type="submit" class="todo-update-todo">Change</button>
+                </form>
+                <form action="/delete-todo" method="post" style="display: inline;">
+                    <input type="hidden" name="todoId" value="<%= todo.id %>">
+                    <button type="submit" class="delete-button">Delete</button>
+                </form>
+            </div>
             <% }); %>
-    </ul>
+    </section>
     <div class="material-symbols-outlined" onclick="showPopup()">add_circle</div>
     <div id="todo-input" class="popup">
         <div class="blocker" onclick="hidePopup()"></div>

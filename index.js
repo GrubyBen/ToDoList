@@ -1,10 +1,20 @@
-const express = require('express')
-const app = express()
+const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
+const mysql = require('mysql');
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 const getConfig = require('./config').getConfig();
 const { startServer } = require('./functions');
-var bodyParser = require('body-parser');
-const mysql = require('mysql');
+const saltRounds = 10;
+
+const app = express();
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(bodyParser.urlencoded({ extended: false }));
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -12,82 +22,139 @@ const db = mysql.createConnection({
     database: 'todo',
 });
 
-
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-app.use(express.static(path.join(__dirname, 'assets')));
-app.use(bodyParser.urlencoded({ extended: false }));
-
 db.connect((err) => {
     if (err) {
-        console.error('Error connecting to MySQL:', err);
+        console.error('Error connecting to the database: ' + err.stack);
         return;
     }
-    console.log('Connected to MySQL');
+    console.log('Connected to the database as ID ' + db.threadId);
 });
 
-app.get('/', function(req, res) {
-    const sql = 'SELECT * FROM todos';
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error fetching todos:', err);
-        } else {
-            // Render the 'todo.ejs' template and pass the fetched todos to it
+app.use(session({
+    secret: 'your_secret_key',
+    resave: true,
+    saveUninitialized: true,
+}));
+
+app.use((err, req, res, next) => {
+    console.error(err);
+    res.status(500).send('Internal Server Error');
+});
+
+app.get('/', (req, res) => {
+    if (req.session.username) {
+        const sql = 'SELECT id, status, content, creatorNickname FROM todos';
+        db.query(sql, (err, results) => {
+            if (err) {
+                return next(err);
+            }
             res.render('todo.ejs', { todos: results });
+        });
+    } else {
+        res.redirect('/login');
+    }
+});
 
-            // Log the status of each todo
-            results.forEach(todo => {
-                console.log('Todo Status:', todo.status);
-            });
+app.get('/register', (req, res) => {
+    res.render('register.ejs');
+});
+
+app.post('/register', (req, res, next) => {
+    const { new_username, new_password } = req.body;
+
+    if (!new_password) {
+        return res.status(400).send('Password is required.');
+    }
+
+    bcrypt.hash(new_password, saltRounds, (err, hash) => {
+        if (err) {
+            return next(err);
+        }
+
+        const user = {
+            username: new_username,
+            password: hash,
         };
-    });
-});
 
-app.post('/create-todo', (req, res) => {
-    const todoContent = req.body['todo-content'];
-
-    const sql = 'INSERT INTO todos (status,content) VALUES (?,?)';
-    db.query(sql, ['todo', todoContent], (err, result) => {
-        if (err) {
-            console.error('Error inserting todo:', err);
-        } else {
-            console.log('Todo created successfully');
+        db.query('INSERT INTO users SET ?', user, (err, results) => {
+            if (err) {
+                return next(err);
+            }
+            console.log('User registered with ID ' + results.insertId);
+            req.session.username = new_username;
             res.redirect('/');
+        });
+    });
+});
+
+app.get('/login', (req, res) => {
+    res.render('login.ejs');
+});
+
+app.post('/login', (req, res, next) => {
+    const { username, password } = req.body;
+    db.query('SELECT * FROM users WHERE username = ?', [username], (err, results) => {
+        if (err) {
+            return next(err);
+        }
+        if (results.length === 0) {
+            res.send('User not found.');
+        } else {
+            const hashedPassword = results[0].password;
+            bcrypt.compare(password, hashedPassword, (err, result) => {
+                if (err) {
+                    return next(err);
+                }
+                if (result) {
+                    req.session.username = username;
+                    res.redirect('/');
+                } else {
+                    res.send('Incorrect password.');
+                }
+            });
         }
     });
 });
-app.post('/delete-todo', (req, res) => {
-    const todoId = req.body.todoId;
 
-    const sql = 'DELETE FROM todos WHERE id = ?';
-    db.query(sql, [todoId], (err, result) => {
+app.post('/create-todo', (req, res, next) => {
+    const todoContent = req.body['todo-content'];
+    const username = req.session.username;
+
+    const sql = 'INSERT INTO todos (status, content, creatorNickname) VALUES (?, ?, ?)';
+    db.query(sql, ['todo', todoContent, username], (err, result) => {
         if (err) {
-            console.error('Error deleting todo:', err);
-        } else {
-            console.log('Todo deleted successfully');
+            return next(err);
         }
-        // Redirect the user to the appropriate page after deletion
+        console.log('Todo created successfully');
         res.redirect('/');
     });
 });
 
-app.post('/update-todo', (req, res) => {
+app.post('/delete-todo', (req, res, next) => {
     const todoId = req.body.todoId;
-    const newStatus = req.body.status; // Use req.body.status to get the selected status
+    const sql = 'DELETE FROM todos WHERE id = ?';
+    db.query(sql, [todoId], (err, result) => {
+        if (err) {
+            return next(err);
+        }
+        console.log('Todo deleted successfully');
+        res.redirect('/');
+    });
+});
 
-    // Now you can use the 'newStatus' to update the todo in the database
+app.post('/update-todo', (req, res, next) => {
+    const todoId = req.body.todoId;
+    const newStatus = req.body.status;
     const sql = "UPDATE todos SET status = ? WHERE id = ?";
     db.query(sql, [newStatus, todoId], (err, result) => {
         if (err) {
-            console.error('Error updating todo:', err);
-            // Handle the error here, e.g., send an error response
-        } else {
-            console.log('Todo updated successfully');
-            // Send a success response after the update is complete
-            res.redirect('/');
+            return next(err);
         }
+        console.log('Todo updated successfully');
+        res.redirect('/');
     });
 });
+
 app.listen(getConfig.port, () => {
     console.log(`Server is running on port ${getConfig.port}`);
 });

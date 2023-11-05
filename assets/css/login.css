@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #202020;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.login-header h1 {
+    color: white;
+    font-size: 24px;
+    margin: 0;
+}
+
+.login-header a {
+    text-decoration: none;
+    color: #4CAF50;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 2px solid #4CAF50;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+}
+
+.login-header a:hover {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.login-form,
+.create-account-form {
+    background-color: #333;
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    text-align: center;
+    margin-left: 1rem;
+}
+
+.login-form label,
+.create-account-form label {
+    font-weight: bold;
+}
+
+.login-form input,
+.create-account-form input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.login-form button,
+.create-account-form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.login-form button:hover,
+.create-account-form button:hover {
+    background-color: #45a049;
+}
